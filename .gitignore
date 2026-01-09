@@ -1,0 +1,7 @@
+.next
+node_modules
+.env.local
+out
+*.log
+package-lock.json
+.github
