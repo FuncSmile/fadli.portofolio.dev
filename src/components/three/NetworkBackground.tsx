@@ -146,7 +146,7 @@ function Dust() {
 
 function Stars({ scroll }: { scroll: number }) {
   const pointsRef = useRef<THREE.Points>(null);
-  const baseCount = 420;
+  const baseCount = 640;
 
   const base = useMemo(() => {
     const pos = new Float32Array(baseCount * 3);
@@ -180,7 +180,7 @@ function Stars({ scroll }: { scroll: number }) {
 
   return (
     <Points ref={pointsRef} positions={working} stride={3}>
-      <PointMaterial size={0.012} color="#ffffff" transparent depthWrite={false} opacity={0.65} />
+      <PointMaterial size={0.014} color="#ffffff" transparent depthWrite={false} opacity={0.9} />
     </Points>
   );
 }
