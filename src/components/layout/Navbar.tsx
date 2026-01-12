@@ -3,7 +3,9 @@
 import { ROUTES } from "@/constants/routes";
 import { useLanguage } from "@/providers/LanguageProvider";
 import Link from "next/link";
+import { useState } from "react";
 import { LanguageToggle } from "../ui/LanguageToggle";
+import { ResumeModal } from "../ui/ResumeModal";
 
 const navItems = [
   { key: "nav.about", href: ROUTES.about },
@@ -15,6 +17,7 @@ const navItems = [
 
 export function Navbar() {
   const { t } = useLanguage();
+  const [resumeOpen, setResumeOpen] = useState(false);
   return (
     <header className="sticky top-0 z-30 border-b border-white/5 bg-black/50 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-6 py-4">
@@ -30,16 +33,16 @@ export function Navbar() {
         </nav>
         <div className="flex items-center gap-3">
           <LanguageToggle />
-          <a
-            href={ROUTES.resume}
+          <button
+            type="button"
+            onClick={() => setResumeOpen(true)}
             className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-white shadow-glow transition hover:-translate-y-0.5 hover:shadow-lg"
-            target="_blank"
-            rel="noreferrer"
           >
             {t("nav.resume")}
-          </a>
+          </button>
         </div>
       </div>
+      <ResumeModal open={resumeOpen} onClose={() => setResumeOpen(false)} />
     </header>
   );
 }

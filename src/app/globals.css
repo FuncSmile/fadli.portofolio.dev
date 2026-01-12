@@ -13,9 +13,10 @@
 }
 
 body {
-  background: radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.15), transparent 25%),
-    radial-gradient(circle at 80% 0%, rgba(34, 211, 238, 0.1), transparent 25%),
-    #05060a;
+  background: radial-gradient(circle at 12% 18%, rgba(90, 102, 226, 0.12), transparent 28%),
+    radial-gradient(circle at 82% 6%, rgba(122, 208, 230, 0.1), transparent 28%),
+    radial-gradient(circle at 50% 80%, rgba(191, 167, 106, 0.08), transparent 30%),
+    #05070d;
 }
 
 .glass {

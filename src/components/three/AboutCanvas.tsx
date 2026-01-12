@@ -1,12 +1,12 @@
 "use client";
 
 import { useMemo, useRef } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Points, PointMaterial } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Float, Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
-const NODE_COUNT = 18;
-const CONNECT_DISTANCE = 1.6;
+const NODE_COUNT = 8;
+const CONNECT_DISTANCE = 1.4;
 
 type NodeData = {
   base: THREE.Vector3;
@@ -18,12 +18,12 @@ function NodeField() {
   const nodes = useMemo<NodeData[]>(() => {
     return new Array(NODE_COUNT).fill(0).map(() => {
       const base = new THREE.Vector3(
-        (Math.random() - 0.5) * 3.5,
         (Math.random() - 0.5) * 2.2,
-        (Math.random() - 0.5) * 2.5
+        (Math.random() - 0.5) * 1.6,
+        (Math.random() - 0.5) * 1.8
       );
-      const amp = new THREE.Vector3(Math.random() * 0.4 + 0.2, Math.random() * 0.3 + 0.2, Math.random() * 0.4 + 0.2);
-      const speed = new THREE.Vector3(Math.random() * 0.6 + 0.3, Math.random() * 0.6 + 0.3, Math.random() * 0.6 + 0.3);
+      const amp = new THREE.Vector3(Math.random() * 0.25 + 0.15, Math.random() * 0.2 + 0.15, Math.random() * 0.25 + 0.15);
+      const speed = new THREE.Vector3(Math.random() * 0.4 + 0.25, Math.random() * 0.4 + 0.25, Math.random() * 0.4 + 0.25);
       return { base, amp, speed };
     });
   }, []);
@@ -36,7 +36,6 @@ function NodeField() {
     const t = clock.getElapsedTime();
     const pts = nodePositions.current;
 
-    // Update node positions with smooth floating motion
     nodes.forEach((node, i) => {
       pts[i].set(
         node.base.x + Math.sin(t * node.speed.x + i) * node.amp.x,
@@ -45,7 +44,6 @@ function NodeField() {
       );
     });
 
-    // Build dynamic lines between nearby nodes
     let ptr = 0;
     for (let i = 0; i < NODE_COUNT; i++) {
       for (let j = i + 1; j < NODE_COUNT; j++) {
@@ -71,16 +69,15 @@ function NodeField() {
     <group>
       {nodePositions.current.map((pos, idx) => (
         <mesh key={idx} position={pos}>
-          <sphereGeometry args={[0.08, 8, 8]} />
-          <meshStandardMaterial wireframe color="#7c3aed" emissive="#22d3ee" emissiveIntensity={0.6} />
+          <sphereGeometry args={[0.07, 8, 8]} />
+          <meshStandardMaterial wireframe color="#7c3aed" emissive="#22d3ee" emissiveIntensity={0.5} />
         </mesh>
       ))}
-
       <lineSegments>
         <bufferGeometry ref={lineGeom}>
           <bufferAttribute attach="attributes-position" args={[linePositions, 3]} usage={THREE.DynamicDrawUsage} />
         </bufferGeometry>
-        <lineBasicMaterial color="#22d3ee" transparent opacity={0.5} />
+        <lineBasicMaterial color="#22d3ee" transparent opacity={0.35} />
       </lineSegments>
     </group>
   );
@@ -88,51 +85,56 @@ function NodeField() {
 
 function Dust() {
   const pointsRef = useRef<THREE.Points>(null);
-  const count = 400;
+  const count = 200;
 
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 8;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 6;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 8;
+      pos[i * 3] = (Math.random() - 0.5) * 5;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 4;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 5;
     }
     return pos;
   }, []);
 
   useFrame((_, delta) => {
     if (pointsRef.current) {
-      pointsRef.current.rotation.y += delta * 0.02;
+      pointsRef.current.rotation.y += delta * 0.015;
     }
   });
 
   return (
     <Points ref={pointsRef} positions={positions} stride={3}>
-      <PointMaterial size={0.02} color="#7c3aed" transparent depthWrite={false} opacity={0.6} />
+      <PointMaterial size={0.015} color="#7c3aed" transparent depthWrite={false} opacity={0.5} />
     </Points>
   );
 }
 
-function ParallaxCamera() {
-  const { camera, pointer } = useThree();
-  useFrame(() => {
-    camera.position.x = THREE.MathUtils.lerp(camera.position.x, pointer.x * 1.2, 0.06);
-    camera.position.y = THREE.MathUtils.lerp(camera.position.y, pointer.y * 0.9, 0.06);
-    camera.lookAt(0, 0, 0);
-  });
-  return null;
+function FloatingCard() {
+  return (
+    <Float speed={0.8} floatIntensity={0.4} rotationIntensity={0.2}>
+      <mesh position={[0, -0.2, 0]}>
+        <boxGeometry args={[1.6, 1, 0.06]} />
+        <meshStandardMaterial color="#0b1220" emissive="#7c3aed" emissiveIntensity={0.25} metalness={0.35} roughness={0.7} />
+      </mesh>
+      <lineSegments>
+        <edgesGeometry args={[new THREE.BoxGeometry(1.6, 1, 0.06)]} />
+        <lineBasicMaterial color="#22d3ee" transparent opacity={0.5} />
+      </lineSegments>
+    </Float>
+  );
 }
 
-export function HeroCanvas() {
+export function AboutCanvas() {
   return (
-    <Canvas camera={{ position: [0, 0, 7], fov: 55 }} className="h-full w-full">
+    <Canvas camera={{ position: [0, 0, 5.5], fov: 55 }} dpr={[1, 1.6]} className="h-full w-full">
       <color attach="background" args={["#05060a"]} />
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[5, 6, 3]} intensity={0.9} color="#7c3aed" />
-      <directionalLight position={[-4, -3, -2]} intensity={0.7} color="#22d3ee" />
-      <ParallaxCamera />
+      <ambientLight intensity={0.45} />
+      <directionalLight position={[4, 5, 3]} intensity={0.8} color="#7c3aed" />
+      <directionalLight position={[-3, -4, -2]} intensity={0.6} color="#22d3ee" />
       <Dust />
       <NodeField />
+      <FloatingCard />
     </Canvas>
   );
 }

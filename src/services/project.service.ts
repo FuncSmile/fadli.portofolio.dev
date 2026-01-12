@@ -23,7 +23,7 @@ const featuredProjects: Project[] = [
 ];
 
 export async function getProjects() {
-  const githubRepos = await fetchGithubRepos();
+  const githubRepos = await fetchGithubRepos().catch(() => []);
   const githubFallback =
     githubRepos.length === 0
       ? [

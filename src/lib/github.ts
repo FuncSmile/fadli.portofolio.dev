@@ -11,6 +11,11 @@ export async function fetchGithubRepos(): Promise<GithubRepo[]> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
 
+  if (process.env.GITHUB_FETCH_DISABLED === "1") {
+    clearTimeout(timeout);
+    return [];
+  }
+
   if (!envConfig.GITHUB_USERNAME) {
     clearTimeout(timeout);
     return [];

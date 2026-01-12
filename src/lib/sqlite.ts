@@ -1,12 +1,13 @@
 import fs from "fs";
 import path from "path";
+import type { Database as DatabaseType } from "better-sqlite3";
 import Database from "better-sqlite3";
 
 const dbPath = path.join(process.cwd(), "data", "contact.db");
 
-let db: Database.Database | null = null;
+let db: DatabaseType | null = null;
 
-function getDb() {
+function getDb(): DatabaseType {
   if (db) return db;
   fs.mkdirSync(path.dirname(dbPath), { recursive: true });
   db = new Database(dbPath);

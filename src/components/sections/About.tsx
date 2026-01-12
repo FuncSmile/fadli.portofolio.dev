@@ -21,7 +21,7 @@ export function About() {
   const items = lang === "id" ? highlightsId : highlights;
 
   return (
-    <section id="about" className="py-16">
+    <section id="about" className="relative py-16">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 lg:flex-row">
         <div className="lg:w-1/3">
           <p className="text-sm uppercase tracking-[0.3em] text-neon">{t("about.tag")}</p>

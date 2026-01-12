@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/providers/LanguageProvider";
+import dynamic from "next/dynamic";
 
 export const metadata: Metadata = {
   title: "Fadli — Portfolio",
@@ -18,10 +19,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const NetworkBackground = dynamic(() => import("@/components/three/NetworkBackground").then((mod) => mod.NetworkBackground), {
+    ssr: false
+  });
+
   return (
     <html lang="en" className="dark">
       <body className="bg-background text-white antialiased">
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <NetworkBackground />
+          <main className="relative z-10">{children}</main>
+        </LanguageProvider>
       </body>
     </html>
   );
