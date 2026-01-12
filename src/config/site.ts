@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "Muhamad Fadli",
-  role: "Network Engineer & Web Developer",
+  role: "Web Developer",
   description: "Modern, interactive portfolio with 3D hero and GitHub-powered projects.",
   resumeUrl: "/resume.pdf",
   links: {

@@ -9,7 +9,7 @@ export const messages: Record<Language, Record<string, string>> = {
     "nav.contact": "Contact",
     "nav.resume": "Resume",
     "hero.greeting": "Hi, I'm Fadli",
-    "hero.role": "Network Engineer & Frontend Developer",
+    "hero.role": "Frontend Developer",
     "hero.body":
       "I build high-performance web experiences with 3D interactions and secure network foundations. Explore my featured projects and GitHub contributions.",
     "hero.cta.projects": "View Projects",
@@ -18,7 +18,7 @@ export const messages: Record<Language, Record<string, string>> = {
     "hero.stat.projects": "Projects delivered",
     "about.title": "Who I am",
     "about.body":
-      "I blend network engineering fundamentals with modern web development to ship reliable, fast experiences. Currently exploring immersive 3D UI and real-time dashboards.",
+      "I blend  fundamentals with modern web development to ship reliable, fast experiences. Currently exploring immersive 3D UI and real-time dashboards.",
     "skills.title": "Stack & tooling",
     "projects.title": "Featured & GitHub",
     "projects.seeAll": "See all",
@@ -50,7 +50,7 @@ export const messages: Record<Language, Record<string, string>> = {
     "nav.contact": "Kontak",
     "nav.resume": "Resume",
     "hero.greeting": "Halo, saya Fadli",
-    "hero.role": "Network Engineer & Frontend Developer",
+    "hero.role": "Frontend Developer",
     "hero.body":
       "Saya membangun pengalaman web berkinerja tinggi dengan interaksi 3D dan fondasi jaringan yang aman. Jelajahi proyek unggulan dan kontribusi GitHub saya.",
     "hero.cta.projects": "Lihat Proyek",

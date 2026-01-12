@@ -108,9 +108,10 @@ function FlowLines({ scroll, isMobile }: { scroll: number; isMobile: boolean }) 
   return (
     <group>
       {lines.map((line, idx) => (
-        <line key={idx} geometry={line.geometry}>
+        <lineSegments key={idx}>
+          <primitive object={line.geometry} attach="geometry" />
           <lineBasicMaterial color={line.color} transparent opacity={0.5} linewidth={1} />
-        </line>
+        </lineSegments>
       ))}
     </group>
   );
@@ -139,6 +140,47 @@ function Dust() {
   return (
     <Points ref={pointsRef} positions={positions} stride={3}>
       <PointMaterial size={0.015} color="#5b5ce2" transparent depthWrite={false} opacity={0.35} />
+    </Points>
+  );
+}
+
+function Stars({ scroll }: { scroll: number }) {
+  const pointsRef = useRef<THREE.Points>(null);
+  const baseCount = 420;
+
+  const base = useMemo(() => {
+    const pos = new Float32Array(baseCount * 3);
+    for (let i = 0; i < baseCount; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 14;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 10;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 14;
+    }
+    return pos;
+  }, []);
+
+  const working = useMemo(() => base.slice(), [base]);
+
+  useFrame(({ pointer }) => {
+    const offsetZ = THREE.MathUtils.lerp(0, -2.5, scroll);
+    const offsetX = pointer.x * 0.4;
+    const offsetY = pointer.y * 0.3;
+
+    for (let i = 0; i < working.length; i += 3) {
+      working[i] = base[i] + offsetX;
+      working[i + 1] = base[i + 1] + offsetY;
+      working[i + 2] = base[i + 2] + offsetZ;
+    }
+
+    if (pointsRef.current) {
+      const attr = pointsRef.current.geometry.getAttribute("position") as THREE.BufferAttribute;
+      attr.array = working;
+      attr.needsUpdate = true;
+    }
+  });
+
+  return (
+    <Points ref={pointsRef} positions={working} stride={3}>
+      <PointMaterial size={0.012} color="#ffffff" transparent depthWrite={false} opacity={0.65} />
     </Points>
   );
 }
@@ -201,6 +243,7 @@ export function NetworkBackground() {
         <directionalLight position={[0, 2, -3]} intensity={0.32} color="#bfa76a" />
         <CameraRig scroll={scroll} />
         <Core scroll={scroll} />
+        <Stars scroll={scroll} />
         <Dust />
         <FlowLines scroll={scroll} isMobile={isMobile} />
       </Canvas>
