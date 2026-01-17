@@ -17,7 +17,7 @@ const experience = [
     },
   },
   {
-    role: { en: "Frontend Developer", id: "Frontend Developer" },
+    role: { en: "Web Developer", id: "Web Developer" },
     company: {
       en: "PT Mastah Digital Teknologi",
       id: "PT Mastah Digital Teknologi",

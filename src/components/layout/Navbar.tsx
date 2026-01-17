@@ -11,6 +11,7 @@ const navItems = [
   { key: "nav.about", href: ROUTES.about },
   { key: "nav.skills", href: ROUTES.skills },
   { key: "nav.projects", href: ROUTES.projects },
+  { key: "nav.certificates", href: ROUTES.certificates },
   { key: "nav.experience", href: ROUTES.experience },
   { key: "nav.contact", href: ROUTES.contact }
 ];

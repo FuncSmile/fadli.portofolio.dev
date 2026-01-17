@@ -5,11 +5,12 @@ export const messages: Record<Language, Record<string, string>> = {
     "nav.about": "About",
     "nav.skills": "Skills",
     "nav.projects": "Projects",
+    "nav.certificates": "Certificates",
     "nav.experience": "Experience",
     "nav.contact": "Contact",
     "nav.resume": "Resume",
     "hero.greeting": "Hi, I'm Fadli",
-    "hero.role": "Frontend Developer",
+    "hero.role": "Web Developer",
     "hero.body":
       "I build high-performance web experiences with 3D interactions and secure network foundations. Explore my featured projects and GitHub contributions.",
     "hero.cta.projects": "View Projects",
@@ -39,6 +40,8 @@ export const messages: Record<Language, Record<string, string>> = {
     "about.tag": "About",
     "skills.tag": "Skills",
     "projects.tag": "Projects",
+    "certificates.tag": "Certificates",
+    "certificates.title": "Certifications",
     "experience.tag": "Experience",
     "contact.tag": "Contact"
   },
@@ -46,11 +49,12 @@ export const messages: Record<Language, Record<string, string>> = {
     "nav.about": "Tentang",
     "nav.skills": "Keahlian",
     "nav.projects": "Proyek",
+    "nav.certificates": "Sertifikat",
     "nav.experience": "Pengalaman",
     "nav.contact": "Kontak",
     "nav.resume": "Resume",
     "hero.greeting": "Halo, saya Fadli",
-    "hero.role": "Frontend Developer",
+    "hero.role": "Web Developer",
     "hero.body":
       "Saya membangun pengalaman web berkinerja tinggi dengan interaksi 3D dan fondasi jaringan yang aman. Jelajahi proyek unggulan dan kontribusi GitHub saya.",
     "hero.cta.projects": "Lihat Proyek",
@@ -80,6 +84,8 @@ export const messages: Record<Language, Record<string, string>> = {
     "about.tag": "Tentang",
     "skills.tag": "Keahlian",
     "projects.tag": "Proyek",
+    "certificates.tag": "Sertifikat",
+    "certificates.title": "Sertifikasi",
     "experience.tag": "Pengalaman",
     "contact.tag": "Kontak"
   }
