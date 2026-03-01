@@ -5,7 +5,6 @@ import type { GithubRepo } from "@/types/github";
 import type { Project } from "@/types/project";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Card } from "../ui/Card";
 
 type Props = {
   featured: Project[];
@@ -36,7 +35,9 @@ export function Projects({ featured, github }: Props) {
               transition={{ delay: idx * 0.05, duration: 0.4 }}
               viewport={{ once: true }}
             >
-              <Card title={project.title} description={project.description}>
+              <div className="glass rounded-2xl p-6 transition hover:-translate-y-1 hover:shadow-glow">
+                <div className="mb-2 text-lg font-semibold text-white">{project.title}</div>
+                <p className="mb-4 text-sm text-white/70">{project.description}</p>
                 <div className="mb-3 flex flex-wrap gap-2 text-xs text-white/60">
                   {project.tech.map((tech) => (
                     <span key={tech} className="rounded-full bg-white/10 px-3 py-1">
@@ -56,7 +57,7 @@ export function Projects({ featured, github }: Props) {
                     </a>
                   ) : null}
                 </div>
-              </Card>
+              </div>
             </motion.div>
           ))}
         </div>

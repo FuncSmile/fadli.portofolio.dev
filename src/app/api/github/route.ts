@@ -1,6 +1,8 @@
 import { fetchGithubRepos } from "@/lib/github";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const repos = await fetchGithubRepos().catch(() => []);

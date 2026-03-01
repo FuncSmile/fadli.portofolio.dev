@@ -5,7 +5,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
-const PALETTE = ["#7ad0e6", "#5b5ce2", "#bfa76a"];
+const PALETTE = ["#7ad0e6", "#ff0000ff", "#bfa76a"];
 const SEGMENTS = 80;
 
 type FlowLine = {
@@ -108,10 +108,10 @@ function FlowLines({ scroll, isMobile }: { scroll: number; isMobile: boolean }) 
   return (
     <group>
       {lines.map((line, idx) => (
-        <lineSegments key={idx}>
+        <line key={idx}>
           <primitive object={line.geometry} attach="geometry" />
-          <lineBasicMaterial color={line.color} transparent opacity={0.5} linewidth={1} />
-        </lineSegments>
+          <lineBasicMaterial color={line.color} transparent opacity={0.6} linewidth={1} />
+        </line>
       ))}
     </group>
   );

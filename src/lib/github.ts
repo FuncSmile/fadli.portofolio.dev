@@ -3,11 +3,12 @@ import type { GithubRepo } from "@/types/github";
 
 const GITHUB_API = "https://api.github.com";
 
-const headers: HeadersInit = envConfig.GITHUB_TOKEN
-  ? { Authorization: `Bearer ${envConfig.GITHUB_TOKEN}` }
-  : {};
-
 export async function fetchGithubRepos(): Promise<GithubRepo[]> {
+  const headers: HeadersInit = {
+    Accept: "application/vnd.github+json",
+    ...(envConfig.GITHUB_TOKEN ? { Authorization: `Bearer ${envConfig.GITHUB_TOKEN}` } : {})
+  };
+
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
 
@@ -17,11 +18,13 @@ export async function fetchGithubRepos(): Promise<GithubRepo[]> {
   }
 
   if (!envConfig.GITHUB_USERNAME) {
+    console.error("❌ GITHUB_USERNAME is not defined in envConfig");
     clearTimeout(timeout);
     return [];
   }
 
   try {
+    console.info(`📡 Fetching GitHub repos for user: ${envConfig.GITHUB_USERNAME}...`);
     const res = await fetch(`${GITHUB_API}/users/${envConfig.GITHUB_USERNAME}/repos?per_page=20&sort=updated`, {
       headers,
       next: { revalidate: 1800 },
