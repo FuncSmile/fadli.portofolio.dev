@@ -15,7 +15,7 @@ import {
 import type { Project, Certificate, Experience } from "@/lib/schema";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 
 export default function AdminDashboard() {
     const [activeTab, setActiveTab] = useState<"projects" | "certificates" | "experiences">("projects");

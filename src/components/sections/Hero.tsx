@@ -4,7 +4,8 @@ import { ROUTES } from "@/constants/routes";
 import { useLanguage } from "@/providers/LanguageProvider";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/Button";
+import { Link } from "lucide-react";
 
 /* ─── Floating particle ──────────────────────────────────────────────────── */
 function Particle({ x, y, size, delay }: { x: string; y: string; size: number; delay: number }) {
@@ -261,13 +262,17 @@ export function Hero() {
           transition={{ delay: 0.8, duration: 0.7 }}
         >
           <MagneticWrap>
-            <Button href={ROUTES.projects}>
-              {t("hero.cta.projects")}
+            <Button asChild>
+              <Link href={ROUTES.projects}>
+                {t("hero.cta.projects")}
+              </Link>
             </Button>
           </MagneticWrap>
           <MagneticWrap>
-            <Button variant="ghost" href={ROUTES.contact}>
-              {t("hero.cta.contact")}
+            <Button asChild variant="ghost">
+              <Link href={ROUTES.contact}>
+                {t("hero.cta.contact")}
+              </Link>
             </Button>
           </MagneticWrap>
         </motion.div>
