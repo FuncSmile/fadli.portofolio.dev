@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { saveContactMessage } from "@/lib/sqlite";
+import { turso } from "@/lib/turso";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -7,6 +7,8 @@ const contactSchema = z.object({
   email: z.string().email("Please provide a valid email"),
   message: z.string().min(3, "Message is too short")
 });
+
+
 
 export async function POST(request: Request) {
   try {
@@ -19,13 +21,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const data = parsed.data;
-    const id = saveContactMessage(data);
+    const { name, email, message } = parsed.data;
 
-    console.info("Contact request stored", { id, data });
+    const result = await turso.execute({
+      sql: "INSERT INTO contact_messages (name, email, message) VALUES (?, ?, ?)",
+      args: [name, email, message],
+    });
 
-    return NextResponse.json({ success: true, message: "Message stored", id });
+    console.info("Contact message stored", { id: Number(result.lastInsertRowid), name, email });
+
+    return NextResponse.json({
+      success: true,
+      message: "Message stored",
+      id: Number(result.lastInsertRowid),
+    });
   } catch (error) {
+    console.error("Contact API error:", error);
     if (error instanceof Error) {
       return NextResponse.json({ success: false, message: error.message }, { status: 400 });
     }
