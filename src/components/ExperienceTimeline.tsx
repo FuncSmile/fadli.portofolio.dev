@@ -90,7 +90,7 @@ export default function ExperienceTimeline({ experiences }: ExperienceTimelinePr
 
                                     {/* Period Desktop */}
                                     <motion.div
-                                        className={`hidden md:block absolute top-8 font-mono text-sm tracking-widest text-white/50 ${isEven ? "-left-52 text-right" : "-right-52 text-left"}`}
+                                        className={`hidden md:block absolute top-8 font-mono text-sm tracking-widest text-white/50 ${isEven ? "-left-64 text-right" : "-right-64 text-left"}`}
                                         initial={{ opacity: 0, x: isEven ? 10 : -10 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         transition={{ delay: idx * 0.12 + 0.15, duration: 0.4 }}

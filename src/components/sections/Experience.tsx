@@ -3,6 +3,8 @@
 import { useLanguage } from "@/providers/LanguageProvider";
 import { motion } from "framer-motion";
 
+const currentYear = new Date().getFullYear();
+
 const experience = [
   {
     role: { en: "FullStack Web", id: "Fullstack Web" },
@@ -10,7 +12,8 @@ const experience = [
       en: "PT Rahmah Group International",
       id: "PT Rahmah Grup Internasional",
     },
-    period: "2024 — 2025",
+    startYear: 2024,
+    endYear: 2025, // sudah selesai
     summary: {
       en: "Developed and maintained internal tools and client websites using modern web technologies.",
       id: "Mengembangkan dan memelihara alat internal serta situs web klien menggunakan teknologi web modern.",
@@ -22,19 +25,21 @@ const experience = [
       en: "PT Mastah Digital Teknologi",
       id: "PT Mastah Digital Teknologi",
     },
-    period: "2025 — 2026",
+    startYear: 2025,
+    endYear: null, // masih berjalan → otomatis tahun sekarang
     summary: {
       en: "Developed Web Apps CBT, and LMS platforms focusing on performance and accessibility.",
       id: "Mengembangkan platform Web Apps CBT dan LMS dengan fokus pada kinerja dan aksesibilitas.",
     },
   },
   {
-    role: { en: "programmer", id: "programmer" },
+    role: { en: "Programmer", id: "Programmer" },
     company: {
       en: "My Team (Centrova)",
       id: "Tim Saya (Centrova)",
     },
-    period: "2024 — 2026",
+    startYear: 2024,
+    endYear: null, // masih berjalan → otomatis tahun sekarang
     summary: {
       en: "Developed Web Apps platform, helping digitize SMEs/mid-sized companies.",
       id: "Mengembangkan platform Web Apps, Membantu mendigitalkan UKM/perusahaan menengah.",
@@ -46,13 +51,19 @@ const experience = [
       en: "PT. Alfatih Cyber Solution",
       id: "PT. Alfatih Cyber Solution",
     },
-    period: "2022 — 2023",
+    startYear: 2022,
+    endYear: 2023, // sudah selesai
     summary: {
       en: "Provide technical support for hardware, software, and network issues.",
       id: "Memberikan dukungan teknis untuk masalah perangkat keras, perangkat lunak, dan jaringan.",
     },
   },
 ];
+
+function formatPeriod(startYear: number, endYear: number | null): string {
+  const end = endYear ?? currentYear;
+  return `${startYear} — ${endYear === null ? "Present" : end}`;
+}
 
 export function Experience() {
   const { t, lang } = useLanguage();
@@ -123,7 +134,7 @@ export function Experience() {
 
                   {/* Period Mobile */}
                   <div className="md:hidden pt-1 pl-10 font-mono text-sm text-sky-400 font-semibold tracking-widest">
-                    {item.period}
+                    {formatPeriod(item.startYear, item.endYear)}
                   </div>
 
                   {/* Content Box */}
@@ -133,7 +144,7 @@ export function Experience() {
 
                       {/* Period Desktop */}
                       <div className={`hidden md:block absolute top-8 font-mono text-sm tracking-widest text-white/50 ${isEven ? '-left-52 text-right' : '-right-52 text-left'}`}>
-                        {item.period}
+                        {formatPeriod(item.startYear, item.endYear)}
                       </div>
 
                       <h3 className="text-2xl font-bold text-white mb-2">{item.role[lang]}</h3>

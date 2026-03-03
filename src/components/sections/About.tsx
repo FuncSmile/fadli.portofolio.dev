@@ -57,9 +57,9 @@ export function About() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="relative flex flex-col gap-6 rounded-2xl pb-6 bg-card/40 backdrop-blur-md border border-white/5 p-6 hover:bg-card/60 transition-all duration-300 hover:border-white/10 hover:-translate-y-1 hover:shadow-glow group"
+                className="relative flex flex-col gap-6 rounded-2xl pb-6 bg-card/40 backdrop-blur-md border border-white/5 p-6 hover:bg-card/60 transition-all duration-300 hover:border-white/10 hover:-translate-y-1 hover:shadow-glow group overflow-hidden"
               >
-                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-neon to-accent rounded-l-2xl opacity-50 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute top-0 left-0 w-2 h-full bg-linear-to-b from-neon to-accent rounded-l-2xl opacity-50 group-hover:opacity-100 transition-opacity" />
                 <p className="text-white/80 leading-relaxed pl-4">
                   {item}
                 </p>

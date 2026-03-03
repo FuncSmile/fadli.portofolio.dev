@@ -167,7 +167,7 @@ export function Hero() {
             {t("hero.tag")}
           </span>
           <div className="h-px w-16 bg-gradient-to-r from-neon/60 to-transparent" />
-          <span className="text-[11px] font-mono text-white/30 tracking-widest">EST. 2024</span>
+          <span className="text-[11px] font-mono text-white/30 tracking-widest">EST. {new Date().getFullYear()}</span>
         </motion.div>
 
         {/* Main headline — asymmetric, editorial */}
@@ -305,7 +305,7 @@ export function Hero() {
           className="text-[10px] font-mono text-white/20 tracking-[0.25em] uppercase"
           style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
-          PORTFOLIO · 2024
+          PORTFOLIO · {new Date().getFullYear()}
         </p>
         <div className="w-px h-16 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
       </motion.div>
