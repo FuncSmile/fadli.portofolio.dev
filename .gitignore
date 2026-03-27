@@ -1,6 +1,7 @@
 .next
 node_modules
 .env.local
+.env
 out
 *.log
 package-lock.json

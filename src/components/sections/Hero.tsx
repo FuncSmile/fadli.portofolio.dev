@@ -2,7 +2,7 @@
 
 import { ROUTES } from "@/constants/routes";
 import { useLanguage } from "@/providers/LanguageProvider";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Link } from "lucide-react";
@@ -20,28 +20,41 @@ function Particle({ x, y, size, delay }: { x: string; y: string; size: number; d
 }
 
 /* ─── Scramble text hook ─────────────────────────────────────────────────── */
-const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%";
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
 function useScramble(target: string, delay = 0) {
-  const [display, setDisplay] = useState(target);
+  const [display, setDisplay] = useState("");
+  
   useEffect(() => {
     let frame = 0;
+    const maxFrames = target.length;
+    
     const timeout = setTimeout(() => {
       const interval = setInterval(() => {
         setDisplay(
           target
             .split("")
-            .map((char, i) =>
-              i < frame ? char : char === " " ? " " : CHARS[Math.floor(Math.random() * CHARS.length)]
-            )
+            .map((char, i) => {
+              if (i < frame) return char;
+              if (char === " ") return " ";
+              return CHARS[Math.floor(Math.random() * CHARS.length)];
+            })
             .join("")
         );
-        frame++;
-        if (frame > target.length) clearInterval(interval);
-      }, 40);
+        
+        // Reveal 2 chars per frame if the string is long to keep it snappy
+        frame += target.length > 20 ? 2 : 1;
+        
+        if (frame > target.length) {
+          setDisplay(target);
+          clearInterval(interval);
+        }
+      }, 30);
     }, delay * 1000);
+    
     return () => clearTimeout(timeout);
   }, [target, delay]);
-  return display;
+  
+  return display || " ".repeat(target.length);
 }
 
 /* ─── Magnetic button wrapper ────────────────────────────────────────────── */
@@ -79,6 +92,11 @@ export function Hero() {
   const rotX = useTransform(mouseY, [-300, 300], [6, -6]);
   const rotY = useTransform(mouseX, [-300, 300], [-6, 6]);
 
+  // Scroll parallax for Hero to next section transition
+  const { scrollY } = useScroll();
+  const parallaxY = useTransform(scrollY, [0, 800], [0, 350]); // Move down 350px slowly as user scrolls 800px DOWN
+  const parallaxOpacity = useTransform(scrollY, [0, 600], [1, 0]); // Fade to 0 to prevent clashing with next transparent sections
+
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const { clientX, clientY, currentTarget } = e;
     const { width, height, left, top } = currentTarget.getBoundingClientRect();
@@ -87,9 +105,10 @@ export function Hero() {
   };
 
   return (
-    <section
+    <motion.section
       className="relative flex min-h-screen items-center overflow-hidden"
       onMouseMove={handleMouseMove}
+      style={{ y: parallaxY, opacity: parallaxOpacity }}
     >
       {/* ── Deep background ── */}
       <div className="absolute inset-0 bg-[#050507]" />
@@ -130,28 +149,6 @@ export function Hero() {
           rotateY: rotY,
         }}
       />
-
-      {/* Particles */}
-      {[
-        { x: "12%", y: "22%", size: 5, delay: 0 },
-        { x: "80%", y: "15%", size: 3, delay: 1.2 },
-        { x: "65%", y: "70%", size: 6, delay: 0.6 },
-        { x: "28%", y: "75%", size: 4, delay: 2 },
-        { x: "90%", y: "52%", size: 3, delay: 0.3 },
-        { x: "45%", y: "10%", size: 4, delay: 1.7 },
-      ].map((p, i) => <Particle key={i} {...p} />)}
-
-      {/* ── Decorative large index number ── */}
-      <motion.div
-        className="absolute right-0 bottom-0 select-none pointer-events-none font-black text-white/[0.025] leading-none"
-        style={{ fontSize: "clamp(200px, 35vw, 520px)", lineHeight: 0.85, rotateX: rotX, rotateY: rotY }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 1.2 }}
-      >
-        01
-      </motion.div>
-
       {/* ── Content ── */}
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 lg:px-12 py-32 lg:py-0 lg:min-h-screen flex flex-col justify-center">
 
@@ -184,21 +181,23 @@ export function Hero() {
           </motion.p>
 
           {/* Big name / role — scramble effect */}
-          <motion.h1
-            className="font-black leading-[0.9] tracking-tighter text-white"
-            style={{
-              fontFamily: "'Bebas Neue', 'Anton', Impact, sans-serif",
-              fontSize: "clamp(3.5rem, 11vw, 10rem)",
-              letterSpacing: "-0.02em",
-            }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <span className="text-neon drop-shadow-[0_0_30px_hsl(var(--neon,160_100%_55%)/0.6)]">
-              {role}
-            </span>
-          </motion.h1>
+          <div className="min-h-[1.2em] relative flex items-center">
+            <motion.h1
+              className="font-black leading-[1.1] tracking-tighter text-white"
+              style={{
+                fontFamily: "'Bebas Neue', 'Anton', Impact, sans-serif",
+                fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
+                letterSpacing: "-0.01em",
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              <span className="text-neon drop-shadow-[0_0_30px_hsl(var(--neon,160_100%_55%)/0.4)] transition-all duration-300">
+                {role}
+              </span>
+            </motion.h1>
+          </div>
 
           {/* Underline accent */}
           <motion.div
@@ -312,6 +311,6 @@ export function Hero() {
 
       {/* Bottom gradient fade */}
       <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none" />
-    </section>
+    </motion.section>
   );
 }

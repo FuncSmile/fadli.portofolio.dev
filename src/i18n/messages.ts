@@ -14,9 +14,9 @@ export const messages: Record<Language, Record<string, string>> = {
     // ── Hero ──
     "hero.tag": "Network & Web",
     "hero.greeting": "Hi, I'm Fadli",
-    "hero.role": "Web Developer",
+    "hero.role": "Fullstack Developer & Linux Enthusiast",
     "hero.body":
-      "I build high-performance web experiences with 3D interactions and secure network foundations. Explore my featured projects and GitHub contributions.",
+      "Building scalable, secure, and efficient web systems. Experienced in translating business needs into technical solutions through clean code and modern architecture.",
     "hero.cta.projects": "View Projects",
     "hero.cta.contact": "Contact Me",
     "hero.stat.network": "Years with networks",
@@ -30,10 +30,10 @@ export const messages: Record<Language, Record<string, string>> = {
     "about.title": "Who",
     "about.titleHighlight": "Am I?",
     "about.body":
-      "I blend networking fundamentals with modern web development to ship reliable, fast experiences. Currently exploring immersive 3D UI and real-time dashboards.",
-    "about.highlight1": "Hands-on with routing, firewalling, and secure network design.",
-    "about.highlight2": "Frontend-focused with experience in SPA/SSR and performance tuning.",
-    "about.highlight3": "Comfortable with DevOps basics: CI/CD, containerization, observability.",
+      "I am a 5th-semester Informatics Engineering student at Universitas Bina Sarana Informatika (BSI). I am deeply passionate about building scalable, secure, and efficient systems. My journey spans from configuring complex local networks to developing comprehensive fullstack web and mobile applications.",
+    "about.highlight1": "Fullstack Development: Bringing ideas to life with TypeScript, React, and Vue.",
+    "about.highlight2": "Backend & Integrations: Architecting robust services using Node.js and Python.",
+    "about.highlight3": "Infrastructure: Practical knowledge in networking and Mikrotik Tunneling.",
 
     // ── Skills ──
     "skills.tag": "Skills",
@@ -106,9 +106,9 @@ export const messages: Record<Language, Record<string, string>> = {
     // ── Hero ──
     "hero.tag": "Jaringan & Web",
     "hero.greeting": "Halo, saya Fadli",
-    "hero.role": "Web Developer",
+    "hero.role": "Pengembang Full-Stack & Penggemar Linux",
     "hero.body":
-      "Saya membangun pengalaman web berkinerja tinggi dengan interaksi 3D dan fondasi jaringan yang aman. Jelajahi proyek unggulan dan kontribusi GitHub saya.",
+      "Membangun sistem web yang skalabel, aman, dan efisien. Berpengalaman dalam mentransformasi kebutuhan bisnis menjadi solusi teknis melalui clean code dan arsitektur modern.",
     "hero.cta.projects": "Lihat Proyek",
     "hero.cta.contact": "Hubungi Saya",
     "hero.stat.network": "Tahun berkarier di jaringan",
@@ -122,10 +122,10 @@ export const messages: Record<Language, Record<string, string>> = {
     "about.title": "Siapa",
     "about.titleHighlight": "Saya?",
     "about.body":
-      "Saya memadukan dasar rekayasa jaringan dengan pengembangan web modern untuk menghadirkan pengalaman yang andal dan cepat. Saat ini mengeksplorasi UI 3D imersif dan dashboard real-time.",
-    "about.highlight1": "Berpengalaman dalam routing, firewall, dan desain jaringan yang aman.",
-    "about.highlight2": "Fokus pada frontend dengan pengalaman di SPA/SSR dan optimasi performa.",
-    "about.highlight3": "Terbiasa dengan dasar DevOps: CI/CD, containerization, dan observability.",
+      "Saya adalah mahasiswa Teknik Informatika semester 5 di Universitas Bina Sarana Informatika (BSI). Saya memiliki minat mendalam dalam membangun sistem yang skalabel, aman, dan efisien. Perjalanan saya mencakup dari konfigurasi jaringan kompleks hingga pengembangan aplikasi web dan mobile fullstack.",
+    "about.highlight1": "Fullstack Development: Mewujudkan ide dengan TypeScript, React, dan Vue.",
+    "about.highlight2": "Backend & Integrasi: Merancang arsitektur service yang tangguh dengan Node.js dan Python.",
+    "about.highlight3": "Infrastruktur: Pengetahuan praktis dalam jaringan dan Mikrotik Tunneling.",
 
     // ── Skills ──
     "skills.tag": "Keahlian",

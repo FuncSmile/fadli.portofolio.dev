@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/providers/LanguageProvider";
-import { ClientNetworkBackground } from "@/components/three/ClientNetworkBackground";
 
 import { Navbar } from "@/components/layout/Navbar";
 
@@ -25,8 +24,18 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="bg-background text-white antialiased">
         <LanguageProvider>
+          {/* Global Grid background */}
+          <div
+            className="fixed inset-0 pointer-events-none z-[-1]"
+            style={{
+              backgroundImage: `
+                linear-gradient(to right, hsl(var(--border)/0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, hsl(var(--border)/0.3) 1px, transparent 1px)
+              `,
+              backgroundSize: "80px 80px",
+            }}
+          />
 
-          <ClientNetworkBackground />
           <Navbar />
           <main className="relative z-10">{children}</main>
         </LanguageProvider>

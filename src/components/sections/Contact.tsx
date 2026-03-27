@@ -4,6 +4,7 @@ import { useLanguage } from "@/providers/LanguageProvider";
 import { submitContact } from "@/services/contact.service";
 import { useState } from "react";
 import { Button } from "../ui/Button";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 const initialState = { name: "", email: "", message: "" };
 
@@ -28,46 +29,21 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-32 relative overflow-hidden bg-background">
-      {/* Grid background */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, hsl(var(--border)/0.3) 1px, transparent 1px),
-            linear-gradient(to bottom, hsl(var(--border)/0.3) 1px, transparent 1px)
-          `,
-          backgroundSize: "80px 80px",
-        }}
-      />
-
-      {/* Glow blobs */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-neon/10 rounded-full blur-[100px] pointer-events-none" />
+    <section id="contact" className="py-24 md:py-32 relative overflow-hidden">
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-6xl relative z-10">
 
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Header */}
           <div className="lg:pr-10">
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-xs font-mono tracking-[0.3em] text-white/40 uppercase border border-accent/30 px-3 py-1 rounded-full">
-                contact Me
-              </span>
-              <div className="h-px flex-1 bg-gradient-to-r from-border to-transparent" />
-            </div>
-            <h2
-              className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-6"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-            >
-              Let's{" "}
-              <span className="italic">
-                Talk
-              </span>
-            </h2>
-            <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-              {t("contact.body")}
-            </p>
+            <SectionHeader
+              tag="Contact Me"
+              tagNumber="06"
+              title="Let's"
+              highlight="Talk"
+              description={t("contact.body")}
+              align="left"
+            />
 
             <div className="space-y-4">
               {/* Added contact info as aesthetic blocks */}

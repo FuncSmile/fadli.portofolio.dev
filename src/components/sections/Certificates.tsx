@@ -2,115 +2,102 @@
 
 import { useLanguage } from "@/providers/LanguageProvider";
 import { motion } from "framer-motion";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import type { Certificate } from "@/lib/schema";
+import Image from "next/image";
+import LightGallery from 'lightgallery/react';
+import 'lightgallery/css/lightgallery.css';
+import 'lightgallery/css/lg-zoom.css';
+import 'lightgallery/css/lg-thumbnail.css';
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import lgZoom from 'lightgallery/plugins/zoom';
 
-const certificates = [
-  {
-    title: "AWS Certified Cloud Practitioner",
-    issuer: "Amazon Web Services",
-    year: "2023",
-    link: "https://aws.amazon.com/certification/"
-  },
-  {
-    title: "Cisco CCNA",
-    issuer: "Cisco",
-    year: "2022",
-    link: "https://www.cisco.com"
-  },
-  {
-    title: "Google Professional Cloud Architect",
-    issuer: "Google Cloud",
-    year: "2023",
-    link: "https://cloud.google.com/certification"
-  },
-  {
-    title: "Scrum Master Certified",
-    issuer: "Scrum Study",
-    year: "2021",
-    link: "https://www.scrumstudy.com"
-  }
-];
+type Props = {
+  certificates: Certificate[];
+};
 
-export function Certificates() {
+export function Certificates({ certificates = [] }: Props) {
   const { t } = useLanguage();
 
   return (
-    <section id="certificates" className="py-32 relative overflow-hidden bg-background">
-      {/* Grid background */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, hsl(var(--border)/0.3) 1px, transparent 1px),
-            linear-gradient(to bottom, hsl(var(--border)/0.3) 1px, transparent 1px)
-          `,
-          backgroundSize: "80px 80px",
-        }}
-      />
-
-      {/* Glow blobs */}
-      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[100px] pointer-events-none" />
+    <section id="certificates" className="py-32 relative overflow-hidden">
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-6xl relative z-10">
+        <SectionHeader
+          tag="Credentials"
+          tagNumber="04"
+          title="Certificates &"
+          highlight="Awards"
+          description="Professional certifications demonstrating commitment to continuous learning in web development and networking."
+        />
 
-        {/* Header */}
-        <div className="mb-20">
-          <div className="flex items-center gap-4 mb-6">
-            <span className="text-xs font-mono tracking-[0.3em] text-primary uppercase border border-primary/30 px-3 py-1 rounded-full">
-              04 / Credentials
-            </span>
-            <div className="h-px flex-1 bg-gradient-to-r from-border to-transparent" />
-          </div>
-          <h2
-            className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-5"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            Certificates &{" "}
-            <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/50">
-              Awards
-            </span>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-xl leading-relaxed">
-            Professional certifications demonstrating commitment to continuous learning in cloud and networking.
-          </p>
-        </div>
+        {certificates.length > 0 ? (
+          <LightGallery speed={500} plugins={[lgThumbnail, lgZoom]} selector=".lightbox-trigger" elementClassNames="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {certificates.map((cert, idx) => {
+              let yearAssumed = "N/A";
+              if (cert.date) {
+                const parsedDate = new Date(cert.date);
+                if (!isNaN(parsedDate.getTime())) {
+                  yearAssumed = parsedDate.getFullYear().toString();
+                } else {
+                  yearAssumed = cert.date; // Use the raw string if it's not a parsable date (like "2023" or "Agustus 2024")
+                }
+              }
+              return (
+                <motion.div
+                  key={cert.id || cert.name}
+                  className="group relative overflow-hidden rounded-3xl bg-card/40 backdrop-blur-md border border-white/5 transition-all duration-500 hover:-translate-y-2 hover:border-white/10 hover:shadow-glow flex flex-col h-full"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: idx * 0.1, duration: 0.5, ease: "easeOut" }}
+                  viewport={{ once: true }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
 
-        <div className="grid gap-6 md:grid-cols-2">
-          {certificates.map((cert, idx) => (
-            <motion.a
-              key={cert.title}
-              href={cert.link}
-              target="_blank"
-              rel="noreferrer"
-              className="group relative flex flex-col justify-between overflow-hidden rounded-3xl bg-card/60 backdrop-blur-md border border-white/5 p-8 transition-all duration-500 hover:-translate-y-2 hover:border-primary/50 hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.5)]"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: idx * 0.1, duration: 0.5, ease: "easeOut" }}
-              viewport={{ once: true }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  {/* Top Image Section (Edge-to-Edge) */}
+                  {cert.image_url ? (
+                    <a 
+                      href={cert.image_url} 
+                      className="relative w-full aspect-[4/3] block lightbox-trigger cursor-zoom-in group/img overflow-hidden z-10"
+                    >
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity z-20 flex items-center justify-center">
+                          <svg className="w-12 h-12 text-white/90 drop-shadow-md transform scale-50 group-hover/img:scale-100 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                          </svg>
+                      </div>
+                      <Image src={cert.image_url} alt={cert.name} fill className="object-cover transition-transform duration-700 group-hover/img:scale-110" />
+                    </a>
+                  ) : (
+                    <div className="relative w-full aspect-[4/3] bg-white/5 flex flex-col items-center justify-center z-10 border-b border-white/5">
+                      <svg className="w-12 h-12 text-white/20 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      <span className="text-xs font-mono text-white/30 uppercase tracking-widest">No Image</span>
+                    </div>
+                  )}
 
-              <div className="relative z-10">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="p-3 bg-white/5 rounded-2xl border border-white/10 group-hover:bg-primary/20 transition-colors">
-                    <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                    </svg>
+                  {/* Content Section */}
+                  <div className="p-6 md:p-8 relative z-10 flex flex-col flex-grow">
+                    <h3 className="text-xl font-bold text-white group-hover:text-neon transition-colors leading-snug line-clamp-2 mb-4">
+                      {cert.name}
+                    </h3>
+                    
+                    <div className="mt-auto pt-6 flex flex-wrap gap-4 items-center justify-between border-t border-white/10">
+                      <span className="text-sm font-medium text-white/60 line-clamp-1">{cert.issuer}</span>
+                      <span className="font-mono text-xs tracking-widest text-neon/80 bg-neon/10 px-3 py-1.5 rounded-lg border border-neon/20 shrink-0">
+                        {yearAssumed}
+                      </span>
+                    </div>
                   </div>
-                  <span className="font-mono text-sm tracking-widest text-white/50 bg-black/40 px-3 py-1 rounded-full border border-white/10">{cert.year}</span>
-                </div>
-
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">{cert.title}</h3>
-                <p className="text-white/60">{cert.issuer}</p>
-              </div>
-
-              <div className="relative z-10 mt-8 flex items-center justify-between text-sm font-semibold text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-                <span>View credential</span>
-                <span className="text-lg">→</span>
-              </div>
-            </motion.a>
-          ))}
-        </div>
+                </motion.div>
+              );
+            })}
+          </LightGallery>
+        ) : (
+          <div className="text-center text-muted-foreground mt-10">
+            No certificates added yet.
+          </div>
+        )}
       </div>
     </section>
   );
