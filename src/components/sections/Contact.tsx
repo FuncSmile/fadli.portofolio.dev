@@ -3,7 +3,6 @@
 import { useLanguage } from "@/providers/LanguageProvider";
 import { submitContact } from "@/services/contact.service";
 import { useState } from "react";
-import { Button } from "../ui/Button";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 
 const initialState = { name: "", email: "", message: "" };
@@ -30,15 +29,11 @@ export function Contact() {
 
   return (
     <section id="contact" className="py-24 md:py-32 relative overflow-hidden">
-
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-6xl relative z-10">
-
         <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Header */}
           <div className="lg:pr-10">
             <SectionHeader
               tag="Contact Me"
-              tagNumber="06"
               title="Let's"
               highlight="Talk"
               description={t("contact.body")}
@@ -46,7 +41,6 @@ export function Contact() {
             />
 
             <div className="space-y-4">
-              {/* Added contact info as aesthetic blocks */}
               <div className="flex items-center gap-4 text-white/70 hover:text-white transition-colors">
                 <div className="p-3 bg-white/5 rounded-xl border border-white/10 shrink-0">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -58,7 +52,7 @@ export function Contact() {
             </div>
 
             {status === "success" && (
-              <div className="mt-8 p-4 rounded-xl bg-neon/10 border border-neon/20 text-neon flex items-center gap-3">
+              <div className="mt-8 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center gap-3">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
@@ -76,11 +70,9 @@ export function Contact() {
             )}
           </div>
 
-          {/* Form */}
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-            <form onSubmit={handleSubmit} className="relative bg-card/40 backdrop-blur-xl border border-white/5 hover:border-white/10 rounded-3xl p-8 space-y-6 transition-all shadow-2xl">
-
+            <form onSubmit={handleSubmit} className="relative bg-zinc-900/40 backdrop-blur-xl border border-white/5 hover:border-white/10 rounded-3xl p-8 space-y-6 transition-all shadow-2xl">
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-white/70 tracking-wide uppercase">{t("contact.name")}</label>
                 <input
@@ -121,7 +113,7 @@ export function Contact() {
                 className={`w-full py-4 rounded-xl font-bold tracking-widest uppercase transition-all duration-300
                   ${status === "loading"
                     ? "bg-white/10 text-white/50 cursor-not-allowed"
-                    : "bg-accent hover:bg-accent/90 text-white shadow-[0_0_20px_hsl(var(--accent)/0.3)] hover:shadow-[0_0_30px_hsl(var(--accent)/0.5)] active:scale-[0.98]"
+                    : "bg-accent hover:bg-accent/90 text-white shadow-lg active:scale-[0.98]"
                   }
                 `}
               >
@@ -130,7 +122,6 @@ export function Contact() {
             </form>
           </div>
         </div>
-
       </div>
     </section>
   );

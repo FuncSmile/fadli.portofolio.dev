@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import ProjectCard from "@/components/ProjectCard";
 import type { Project } from "@/lib/schema";
+import { Github, Star, GitFork, ExternalLink } from "lucide-react";
 
 type Props = {
   featured: Project[];
@@ -16,67 +17,78 @@ export function Projects({ featured, github }: Props) {
   const { t } = useLanguage();
 
   return (
-    <section id="projects" className="py-24 md:py-32 relative overflow-hidden">
-      
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full max-w-6xl">
+    <section id="projects" className="py-24 md:py-32 relative overflow-hidden bg-background">
+      <div className="container mx-auto px-6 lg:px-12 relative z-10 w-full max-w-7xl">
         <SectionHeader
           tag={t("projects.tag")}
-          tagNumber="03"
           title="Featured"
           highlight="Works"
-          description="A showcase of applications and tools I've built, featuring different tech stacks and responsive designs."
+          description="A curated selection of my finest work, spanning web applications, infrastructure tools, and experimental projects."
         />
 
-        {/* PROJECT GRID */}
         {featured && featured.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
             {featured.map((project, index) => (
               <ProjectCard key={project.id || index} project={project} index={index} />
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-24 px-4 border border-white/5 rounded-2xl bg-card/40 backdrop-blur-md shadow-lg relative overflow-hidden group mb-20 hover:border-white/10 transition-all">
-            <div className="w-20 h-20 mb-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-inner relative z-10">
-              <span className="text-neon/70 text-3xl">📭</span>
-            </div>
-            <h3 className="text-2xl font-bold mb-3 text-white relative z-10">No projects found</h3>
-            <p className="text-muted-foreground text-center max-w-sm relative z-10">
-              Projects will appear here once they are added to the database. Check back soon!
-            </p>
+          <div className="py-20 text-center glass-card rounded-3xl mb-32">
+            <p className="text-muted-foreground">No featured projects found yet.</p>
           </div>
         )}
 
-        {/* GITHUB REPOS */}
-        <div className="mt-10">
-          <h3 className="text-2xl font-bold text-white mb-8 border-b border-white/10 pb-4 inline-block">Latest GitHub Repos</h3>
+        <div className="relative">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+              <h3 className="text-3xl font-black text-white mb-2">Open Source</h3>
+              <p className="text-muted-foreground">Latest repositories and experiments on GitHub.</p>
+            </div>
+            <a href="https://github.com" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm font-bold text-accent hover:underline">
+              View All Repositories <ExternalLink className="w-4 h-4" />
+            </a>
+          </div>
+
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {github && github.slice(0, 6).map((repo, idx) => (
               <motion.div
                 key={repo.id}
-                className="bg-card/40 backdrop-blur-md border border-white/5 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:border-white/10 hover:shadow-glow flex flex-col h-full"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05, duration: 0.4 }}
                 viewport={{ once: true }}
+                className="group p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-accent/30 transition-all hover:-translate-y-1 flex flex-col h-full relative overflow-hidden"
               >
-                <div className="flex items-center justify-between mb-3">
-                  <a href={repo.html_url} className="font-semibold text-lg text-white hover:text-neon transition-colors line-clamp-1" target="_blank" rel="noreferrer">
-                    {repo.name}
-                  </a>
+                <div className="flex items-start justify-between mb-4">
+                  <div className="p-2 rounded-lg bg-accent/10 text-accent group-hover:scale-110 transition-transform">
+                    <Github className="w-5 h-5" />
+                  </div>
+                  <div className="flex items-center gap-3 text-xs font-mono text-muted-foreground">
+                    <span className="flex items-center gap-1"><Star className="w-3 h-3" /> {repo.stargazers_count}</span>
+                    <span className="flex items-center gap-1"><GitFork className="w-3 h-3" /> {repo.forks_count}</span>
+                  </div>
                 </div>
-                <p className="mt-2 text-sm text-muted-foreground line-clamp-2 flex-grow">{repo.description ?? "No description provided."}</p>
-                <div className="mt-6 flex items-center gap-4 text-xs font-mono text-white/50">
-                  <span className="flex items-center gap-1">⭐ {repo.stargazers_count}</span>
-                  <span className="flex items-center gap-1">🍴 {repo.forks_count}</span>
+
+                <a href={repo.html_url} target="_blank" rel="noreferrer" className="text-lg font-bold text-white group-hover:text-accent transition-colors mb-2 line-clamp-1">
+                  {repo.name}
+                </a>
+                
+                <p className="text-sm text-muted-foreground line-clamp-2 flex-grow mb-6">
+                  {repo.description ?? "No description provided."}
+                </p>
+
+                <div className="flex items-center justify-between mt-auto">
                   {repo.language && (
-                    <span className="px-2 py-0.5 rounded-sm bg-white/5 ml-auto text-neon/70">{repo.language}</span>
+                    <span className="px-2 py-1 rounded text-[10px] font-bold bg-white/5 text-accent uppercase tracking-wider">{repo.language}</span>
                   )}
+                  <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
+                    Updated {new Date(repo.updated_at).toLocaleDateString()}
+                  </span>
                 </div>
+                
+                <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-accent/5 blur-2xl rounded-full group-hover:bg-accent/10 transition-colors" />
               </motion.div>
             ))}
-            {(!github || github.length === 0) && (
-              <p className="text-muted-foreground italic col-span-full">No repositories found. Check API config.</p>
-            )}
           </div>
         </div>
       </div>

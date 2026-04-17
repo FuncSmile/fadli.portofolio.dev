@@ -4,8 +4,7 @@ import { useLanguage } from "@/providers/LanguageProvider";
 import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import type { Experience as ExperienceType } from "@/lib/schema";
-
-const currentYear = new Date().getFullYear();
+import { Briefcase, Calendar } from "lucide-react";
 
 function formatPeriod(startYearStr: string, endYearStr?: string | null): string {
   const startYear = new Date(startYearStr).getFullYear();
@@ -20,17 +19,18 @@ function renderDescription(desc?: string) {
     const parsed = JSON.parse(desc);
     if (Array.isArray(parsed)) {
       return (
-        <ul className="list-disc list-outside ml-4 space-y-1 mt-2">
+        <ul className="space-y-3 mt-4">
           {parsed.map((point, i) => (
-            <li key={i}>{point}</li>
+            <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground leading-relaxed">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 shrink-0" />
+              {point}
+            </li>
           ))}
         </ul>
       );
     }
-  } catch (e) {
-    // Ignore JSON parse errors and return as normal string
-  }
-  return <>{desc}</>;
+  } catch (e) {}
+  return <p className="text-sm text-muted-foreground leading-relaxed mt-4">{desc}</p>;
 }
 
 type Props = {
@@ -38,84 +38,66 @@ type Props = {
 };
 
 export function Experience({ experiences = [] }: Props) {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   return (
-    <section id="experience" className="py-24 md:py-32 relative overflow-hidden">
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-4xl relative z-10">
+    <section id="experience" className="py-24 md:py-32 relative overflow-hidden bg-background">
+      <div className="container mx-auto px-6 lg:px-12 w-full max-w-5xl relative z-10">
         <SectionHeader
-          tag="Trajectory"
-          tagNumber="05"
-          title="My"
-          highlight="Experience"
-          description="A history of building impact, leading the shift, and delivering scale."
+          tag="Career"
+          title="Professional"
+          highlight="Path"
+          description="A chronological journey through my professional milestones and growth."
         />
 
-        <div className="relative">
-          {/* Vertical Timeline Line */}
-          {experiences.length > 0 && (
-            <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent md:-translate-x-1/2" />
-          )}
+        <div className="relative mt-20">
+          <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-accent/50 via-accent/20 to-transparent hidden md:block" />
 
-          <div className="space-y-12">
-            {experiences.map((item, idx) => {
-              const isEven = idx % 2 === 0;
-              return (
-                <motion.div
-                  key={item.id || idx}
-                  className={`relative flex flex-col md:flex-row gap-8 md:gap-16 items-start ${isEven ? 'md:flex-row-reverse' : ''}`}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1, duration: 0.6 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                >
-                  {/* Timeline Dot */}
-                  <div className="absolute left-4 md:left-1/2 top-0 md:top-6 -translate-x-1/2 flex items-center justify-center">
-                    <div className="w-8 h-8 rounded-full bg-background border border-white/20 flex items-center justify-center z-10">
-                      <div className="w-2.5 h-2.5 rounded-full bg-neon shadow-[0_0_10px_rgba(34,211,238,0.8)] animate-pulse" />
+          <div className="space-y-16">
+            {experiences.map((item, idx) => (
+              <motion.div
+                key={item.id || idx}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.1, duration: 0.6 }}
+                viewport={{ once: true }}
+                className="relative md:pl-20 group"
+              >
+                <div className="absolute left-0 top-0 md:left-4 w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-accent/10 group-hover:border-accent/30 transition-all z-10">
+                  <Briefcase className="w-5 h-5 text-accent" />
+                </div>
+
+                <div className="glass-card p-8 rounded-3xl relative overflow-hidden">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div>
+                      <h3 className="text-2xl font-black text-white">{item.role}</h3>
+                      <p className="text-accent font-bold tracking-wide uppercase text-xs mt-1">
+                        {item.company} • {item.type}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/5 text-[10px] font-mono font-bold text-muted-foreground">
+                      <Calendar className="w-3.5 h-3.5" />
+                      {formatPeriod(item.start_date, item.end_date)}
                     </div>
                   </div>
 
-                  {/* Period Mobile */}
-                  <div className="md:hidden pt-1 pl-12 font-mono text-sm text-neon font-semibold tracking-widest">
-                    {formatPeriod(item.start_date, item.end_date)}
+                  <div className="prose prose-invert max-w-none">
+                    {renderDescription(item.description)}
                   </div>
 
-                  {/* Content Box */}
-                  <div className={`w-full md:w-1/2 pl-12 md:pl-0 md:text-left`}>
-                    <div className={`bg-card/40 backdrop-blur-md border border-white/5 rounded-3xl p-8 hover:bg-card/60 hover:border-white/10 hover:-translate-y-1 hover:shadow-glow transition-all duration-300 shadow-xl relative group ${isEven ? 'md:ml-12' : 'md:mr-12'}`}>
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-
-                      {/* Period Desktop */}
-                      <div className={`hidden md:block absolute top-8 font-mono text-sm tracking-widest text-white/50 ${isEven ? '-left-56 text-right' : '-right-56 text-left'}`}>
-                        {formatPeriod(item.start_date, item.end_date)}
-                      </div>
-
-                      <h3 className="text-2xl font-bold text-white mb-2">{item.role}</h3>
-                      <h4 className="text-lg text-neon/90 font-medium mb-4">{item.company} • {item.type}</h4>
-                      <div className="text-muted-foreground leading-relaxed">
-                        {renderDescription(item.description)}
-                      </div>
-                      {item.skills && (
-                        <div className={`mt-4 flex flex-wrap gap-2 justify-start`}>
-                          {item.skills.split(',').map((skill, i) => (
-                            <span key={i} className="px-2 py-1 bg-white/5 border border-white/10 rounded-md text-xs text-white/70">
-                              {skill.trim()}
-                            </span>
-                          ))}
-                        </div>
-                      )}
+                  {item.skills && (
+                    <div className="mt-8 flex flex-wrap gap-2">
+                      {item.skills.split(',').map((skill, i) => (
+                        <span key={i} className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-[10px] font-bold text-white/60 uppercase tracking-wider">
+                          {skill.trim()}
+                        </span>
+                      ))}
                     </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-            
-            {experiences.length === 0 && (
-              <div className="text-center text-muted-foreground mt-10">
-                No experience data provided.
-              </div>
-            )}
+                  )}
+                  
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2 group-hover:bg-accent/10 transition-colors" />
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
