@@ -1,13 +1,13 @@
-import type { MetadataRoute } from 'next'
+import { siteConfig } from "@/config/seo.config";
+import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    return [
-        {
-            url: 'https://fadli-portofolio-dev.vercel.app',
-            lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 1,
-        },
-        // Tambahkan dynamic routes di sini jika perlu
-    ]
+  const routes = ["", "/about", "/projects", "/login"].map((route) => ({
+    url: `${siteConfig.url}${route}`,
+    lastModified: new Date().toISOString().split("T")[0],
+    changeFrequency: "monthly" as const,
+    priority: route === "" ? 1 : 0.8,
+  }));
+
+  return [...routes];
 }
