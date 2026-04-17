@@ -47,6 +47,10 @@ export const metadata: Metadata = {
   verification: {
     google: siteConfig.verification.google,
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

@@ -4,12 +4,11 @@ export const siteConfig = {
   url: "https://fadli-portofolio-dev.vercel.app",
   ogImage: "https://fadli-portofolio-dev.vercel.app/og-image.png", // Ensure you have this image in /public
   links: {
-    twitter: "https://twitter.com/yourusername",
-    linkedin: "https://linkedin.com/in/yourusername",
-    github: "https://github.com/yourusername",
+    linkedin: "https://linkedin.com/in/muhammad-fadli-7057082a0",
+    github: "https://github.com/FuncSmile",
   },
   verification: {
-    google: "iZma-Q0kG7s4CVVXu9sBQWFhGLnnJBVB2IVtAtfyOdQ",
+    google: "bJWh8yhZKHYsMlTjD7gg2YlBdKxJ8ijGygMxOChOEUQ",
   },
 };
 
